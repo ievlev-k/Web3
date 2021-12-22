@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui" >
+<head>
+    <title>Title</title>
+    <script src="resources/js/jquery.js" type="text/javascript"></script>
+    <script src="resources/js/canvas.js" type="text/javascript"></script>
+    <script src="resources/js/main.js" type="text/javascript"></script>
+
+    <link rel="stylesheet"  type="text/css" href="resources/css/main.css"/>
+</head>
+<h:body>
+
+<div>
+    <div id = "linkBack">
+        <h:form>
+            <h:link value="Переход на стартовыу страницу страницу" outcome="moveBack" ></h:link>
+        </h:form>
+    </div>
+    <h:form id = "main-form">
+
+
+       <div >
+           <canvas id="canvas" width="500" height="500" onclick="canvasClick(event)"/>
+<!--           <canvas id="canvasDots" width="500" height="500" onclick="canvasClick(event)"/>-->
+       </div>
+
+           <div>
+           <h:outputText value="Выберите X:" styleClass="main-graph_title"/>
+           <h:selectOneMenu id = "x" value="#{resultBean.newResult.x}" >
+               <f:selectItem itemValue = "-3" itemLabel = "-3" />
+               <f:selectItem itemValue = "-2" itemLabel = "-2" />
+               <f:selectItem itemValue = "-1" itemLabel = "-1" />
+               <f:selectItem itemValue = "0" itemLabel = "0" />
+               <f:selectItem itemValue = "1" itemLabel = "1" />
+               <f:selectItem itemValue = "2" itemLabel = "2" />
+               <f:selectItem itemValue = "3" itemLabel = "3" />
+               <f:selectItem itemValue = "4" itemLabel = "4" />
+               <f:selectItem itemValue = "5" itemLabel = "5" />
+           </h:selectOneMenu>
+           </div>
+           <br/>
+           <div>
+           <h:outputText value = "Введите Y (-3...3):"/>
+           <h:inputText maxlength="10" size="22" type ="text" id="y" name="y" value="#{resultBean.newResult.y}">
+               <f:validateRequired/>
+               <f:validateDoubleRange minimum="-3" maximum="3"/>
+           </h:inputText>
+           <br/>
+           </div>
+
+            <div class="main-button_parameters">
+                <h:outputText value = "Введите R:"/>
+                <h:commandButton type="button" value="1" class="r-button" onclick="buttonClick(1,this)"/>
+                <h:commandButton type="button" value="1.5" class="r-button" onclick="buttonClick(1.5,this)"/>
+                <h:commandButton type="button" value="2" class="r-button" onclick="buttonClick(2,this)"/>
+                <h:commandButton type="button" value="2.5" class="r-button" onclick="buttonClick(2.5,this)"/>
+                <h:commandButton type="button" value="3" class="r-button" onclick="buttonClick(3,this)"/>
+                <h:inputHidden value="#{resultBean.newResult.r}" id="true-r">
+                    <f:validateRequired/>
+                    <f:validateLongRange minimum="1" maximum="5"/>
+                </h:inputHidden>
+           </div>
+
+       <div>
+           <h:commandButton id="submit" action="#{resultBean.addResult}"  class = "submit" value="submit" update="resultTable" style="width: 80px; height: 30px"/>
+       </div>
+
+    </h:form>
+    <div>
+        <h:form>
+            <div>
+                <h:commandButton id = "clear" action="#{resultBean.clear}" value="Clear" style="width: 80px; height: 30px" />
+            </div>
+        </h:form>
+    </div>
+    <div>
+        <h:form id="send">
+            <div>
+                <h:inputHidden value="#{resultBean.newResult.x}" id = "click-x"/>
+                <h:inputHidden value="#{resultBean.newResult.y}" id = "click-y"/>
+                <h:inputHidden value="#{resultBean.newResult.r}" id = "click-r"/>
+                <h:commandButton id="click" action="#{resultBean.addResult}" style="opacity: 0" value="submit" update="resultTable"   />
+            </div>
+        </h:form>
+    </div>
+    <div id = "inner" class="inner"></div>
+
+    <div>
+        <div id="table">
+            <h:panelGroup id="wrapper" layout="block">
+                <h:dataTable id="resultTable" var="res" value="#{resultBean.list}" rowClasses="row" styleClass="table" scrollable="true">
+                    <h:column>
+                        <f:facet name="header">X</f:facet>
+                        #{res.x}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Y</f:facet>
+                        #{res.y}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">R</f:facet>
+                        #{res.r}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Result</f:facet>
+                        #{res.result}
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+        </div>
+
+    </div>
+
+    <script>
+        draw();
+        changeDots('#{resultBean.newResult.r}');
+    </script>
+    <ui:repeat value="#{resultBean.list}" var="result">
+        <script>
+            drawDotByClick("#{result.x}", "#{result.y}");
+        </script>
+    </ui:repeat>
+</div>
+
+</h:body>
+</html>

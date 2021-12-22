@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: KuPuK
+  Date: 30.11.2021
+  Time: 12:06
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Начальная страница</title>
+    <h:outputStylesheet library="css" name="start.css" target = "head"/>
+    <h:outputScript library="js" name="jquery.js"/>
+    <h:outputScript library="js" name="clock.js"/>
+</h:head>
+
+<h:body>
+    <div >
+        <div id = "cap">
+            <p id = "title">
+                Иевлев Кирилл, Группа: P3233, Вариант:33646
+            </p>
+        </div>
+    </div>
+    <div >
+        <div id="time"></div>
+        <br/>
+        <div id = "day"></div>
+        <div id = "linkForward">
+            <h:form>
+                <h:link value="Переход на основную страницу" outcome="moveForward" ></h:link>
+            </h:form>
+        </div>
+    </div>
+
+
+</h:body>
+
+
+</html>
